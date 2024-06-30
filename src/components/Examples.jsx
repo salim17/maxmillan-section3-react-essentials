@@ -40,7 +40,7 @@ export default function Examples() {
       <Section title="Examples" id="examples">
         <Tabs
           // buttonsContainer={Section} custom component
-          ButtonsContainer="menu" // built in html component
+          // ButtonsContainer="menu" // built in html component
           buttons={
             <>
               <TabButton

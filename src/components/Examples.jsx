@@ -1,9 +1,9 @@
 import { useState } from "react";
 import TabButton from "./TabButton.jsx";
 import { EXAMPLES } from "../data.js";
+import Section from "./Section.jsx";
 
 export default function Examples() {
-
   function handleSelect(selectedButton) {
     // selectedTopic = selectedButton;
     setselectedTopic(selectedButton); // react will use this function will and schedule the update, not synchronous
@@ -15,12 +15,11 @@ export default function Examples() {
 
   let tabContent = <p>Please select a topic</p>; // can define jsx code in a variable also
 
-  console.log("Examples component executing ...")
+  console.log("Examples component executing ...");
 
   return (
     <>
-      <section id="examples">
-        <h2>Examples</h2>
+      <Section title="Examples" id="examples">
         <menu>
           <TabButton
             isActive={selectedTopic === "components"}
@@ -47,7 +46,7 @@ export default function Examples() {
             State
           </TabButton>
         </menu>
-      </section>
+      </Section>
       <div id="tab-content">
         {!selectedTopic ? <p>Please select a topic.</p> : null}
         {selectedTopic && (

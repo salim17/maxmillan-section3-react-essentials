@@ -1,53 +1,81 @@
-import { useState } from 'react';
-import Header from './components/Header/Header.jsx';
-import CoreConcept from './components/CoreConcept.jsx';
+import { useState } from "react";
+import Header from "./components/Header/Header.jsx";
+import CoreConcept from "./components/CoreConcept.jsx";
 
-import { CORE_CONCEPTS } from './data.js';
-import TabButton from './components/TabButton.jsx';
-
-
+import { CORE_CONCEPTS } from "./data.js";
+import { EXAMPLES } from "./data.js";
+import TabButton from "./components/TabButton.jsx";
 
 function App() {
-
-  // let tabContent = 'Please click a button';
-  function handleSelect(selectedTab) {
-    // tabContent = selectedTab;
-    setTabContent(selectedTab); // react will use this function will and schedule the update, not synchronous
-    console.log(tabContent); // will log the old value as rendering is still in progress triggered by setTabContent function on useState
+  // let selectedTopic = 'Please click a button';
+  function handleSelect(selectedButton) {
+    // selectedTopic = selectedButton;
+    setselectedTopic(selectedButton); // react will use this function will and schedule the update, not synchronous
+    console.log(selectedTopic); // will log the old value as rendering is still in progress triggered by setTabContent function on useState
   }
 
   // It is constant because the app function is executed on each state change, and new variable tabContent is created everytime, hence we can keep it as a constant!
-  const [tabContent, setTabContent] = useState('Please click a button'); // use state returns array of 2 elements, hence using array destructing
+  const [selectedTopic, setselectedTopic] = useState(); // use state returns array of 2 elements, hence using array destructing
 
   console.log("App component executing");
+
+  let tabContent = <p>Please select a topic</p>; // can define jsx code in a variable also
   return (
     <div>
       <Header></Header>
       <main>
-        <section id='core-concepts'>
+        <section id="core-concepts">
           <h2>Core Concepts</h2>
           <ul>
-            <CoreConcept image={CORE_CONCEPTS[0].image} title={CORE_CONCEPTS[0].title} description={CORE_CONCEPTS[0].description} />
-            <CoreConcept {...CORE_CONCEPTS[1]} />
-            <CoreConcept {...CORE_CONCEPTS[2]} />
-            <CoreConcept {...CORE_CONCEPTS[3]} />
+            {CORE_CONCEPTS.map((item) => (
+              <CoreConcept key={item.title} {...item} />
+            ))}
           </ul>
         </section>
         <section id="examples">
           <h2>Examples</h2>
           <menu>
-            <TabButton onSelect={() => handleSelect('Components')}>Components</TabButton>
-            <TabButton onSelect={() => handleSelect('Jsx')}>Jsx</TabButton>
-            <TabButton onSelect={() => handleSelect('Props')}>Props</TabButton>
-            <TabButton onSelect={() => handleSelect('State')}>State</TabButton>
+            <TabButton
+              isActive={selectedTopic === "components"}
+              onSelect={() => handleSelect("components")}
+            >
+              Components
+            </TabButton>
+            <TabButton
+              isActive={selectedTopic === "jsx"}
+              onSelect={() => handleSelect("jsx")}
+            >
+              Jsx
+            </TabButton>
+            <TabButton
+              isActive={selectedTopic === "props"}
+              onSelect={() => handleSelect("props")}
+            >
+              Props
+            </TabButton>
+            <TabButton
+              isActive={selectedTopic === "state"}
+              onSelect={() => handleSelect("state")}
+            >
+              State
+            </TabButton>
           </menu>
         </section>
-        {tabContent}
+        <div id="tab-content">
+          {!selectedTopic ? <p>Please select a topic.</p> : null}
+          {selectedTopic && (
+            <div id="tab-content">
+              <h3>{EXAMPLES[selectedTopic].title}</h3>
+              <p>{EXAMPLES[selectedTopic].description}</p>
+              <pre>
+                <code>{EXAMPLES[selectedTopic].code}</code>
+              </pre>
+            </div>
+          )}
+        </div>
       </main>
     </div>
   );
-
-
 }
 
 export default App;
